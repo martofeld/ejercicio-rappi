@@ -3,6 +3,7 @@ package com.mfeldsztejn.rappitest
 import android.app.Application
 import com.mfeldsztejn.rappitest.dtos.Configuration
 import com.mfeldsztejn.rappitest.events.ConfigurationObtainedEvent
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
 class MainApplication : Application() {
@@ -17,9 +18,9 @@ class MainApplication : Application() {
 
         MainApplication.application = this
         ConfigurationManager(this).loadConfiguration()
+        EventBus.getDefault().register(this)
     }
 
-    @SuppressWarnings("unused")
     @Subscribe
     fun onConfigurationObtainedEvent(event: ConfigurationObtainedEvent) {
         configuration = event.configuration

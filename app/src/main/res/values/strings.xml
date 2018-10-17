@@ -6,4 +6,8 @@
     <string name="top_rated">Top rated</string>
     <string name="upcoming">Upcoming</string>
     <string name="movie_image_content_description">Movie image</string>
+    <string name="status">Status</string>
+    <string name="votes_avg">Votes average</string>
+    <string name="votes_avg_value">%1$.2f out of %2$d votes</string>
+    <string name="release_date">Release date</string>
 </resources>

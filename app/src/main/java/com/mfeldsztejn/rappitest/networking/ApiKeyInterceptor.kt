@@ -1,5 +1,7 @@
 package com.mfeldsztejn.rappitest.networking
 
+import com.mfeldsztejn.rappitest.Constants
+
 
 class ApiKeyInterceptor : QueryParamInterceptor() {
 
@@ -9,5 +11,5 @@ class ApiKeyInterceptor : QueryParamInterceptor() {
 
     override fun getKey() = API_KEY_PARAM
 
-    override fun getValue() = "a93f910873b4805d6183cc0599d5879e"
+    override fun getValue() = Constants.TMDB_API_KEY
 }
