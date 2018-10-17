@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">RapiTest</string>
+    <string name="movies">Movies</string>
+    <string name="search">Search</string>
+    <string name="popularity">Popularity</string>
+    <string name="top_rated">Top rated</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="movie_image_content_description">Movie image</string>
+</resources>
