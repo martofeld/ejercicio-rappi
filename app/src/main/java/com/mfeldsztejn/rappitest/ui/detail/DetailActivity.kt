@@ -33,14 +33,14 @@ class DetailActivity : AppCompatActivity() {
 
         ViewCompat.setTransitionName(viewPagerHeader, "${movieId}_image")
 
-        viewModel.movieLiveData.observe(this, Observer {
+        viewModel.movieLiveData.observe(this, Observer { movieDetail ->
             val data = ArrayList<ViewPagerAdapterType>()
-            if (it.backdropPath != null) {
+            if (movieDetail.backdropPath != null) {
                 data.add(
-                        ViewPagerAdapterType(ViewPagerAdapterType.IMAGE, MainApplication.configuration!!.images.backdropUrl(it.backdropPath, container.width))
+                        ViewPagerAdapterType(ViewPagerAdapterType.IMAGE, MainApplication.configuration.value!!.images.backdropUrl(movieDetail.backdropPath, container.width))
                 )
             }
-            it.videos?.results?.forEach {
+            movieDetail.videos?.results?.forEach {
                 data.add(
                         ViewPagerAdapterType(ViewPagerAdapterType.VIDEO, "http://www.youtube.com/embed/${it.key}?autoplay=1&vq=large")
                 )
@@ -50,25 +50,28 @@ class DetailActivity : AppCompatActivity() {
             viewPagerHeader.adapter = adapter
             viewPagerHeader.addOnPageChangeListener(adapter)
 
-            movieTitle.text = it.title
-            movieOverview.text = it.overview
-            if (it.tagline.isNullOrEmpty()) {
+            movieTitle.text = movieDetail.title
+            movieOverview.text = movieDetail.overview
+            if (movieDetail.tagline.isNullOrEmpty()) {
                 movieTagline.visibility = View.GONE
             }
-            movieTagline.text = it.tagline
+            movieTagline.text = movieDetail.tagline
 
             val values = arrayListOf<Pair<String, String>>(
-                    Pair(getString(R.string.status), it.status),
-                    Pair(getString(R.string.votes_avg), getString(R.string.votes_avg_value, it.voteAverage, it.voteCount)))
+                    Pair(getString(R.string.status), movieDetail.status),
+                    Pair(getString(R.string.votes_avg), getString(R.string.votes_avg_value, movieDetail.voteAverage, movieDetail.voteCount)))
 
-            if (it.releaseDate != null) {
-                values.add(0, Pair(getString(R.string.release_date), SimpleDateFormat("dd/MM/yyyy").format(it.releaseDate)))
+            if (movieDetail.releaseDate != null) {
+                values.add(0, Pair(getString(R.string.release_date), SimpleDateFormat("dd/MM/yyyy").format(movieDetail.releaseDate)))
             }
             movieExtras.adapter = MovieExtrasAdapter(values)
             movieExtras.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
 
-            movieReviews.adapter = MovieReviewsAdapter(it.reviews.results)
+            movieReviews.adapter = MovieReviewsAdapter(movieDetail.reviews.results)
             movieReviews.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.VERTICAL, false)
+
+            movieGenres.adapter = MovieGenresAdapter(movieDetail.genres)
+            movieGenres.layoutManager = LinearLayoutManager(applicationContext, RecyclerView.HORIZONTAL, false)
         })
     }
 

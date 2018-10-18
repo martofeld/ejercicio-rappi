@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.ViewCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.bumptech.glide.Glide
@@ -60,10 +62,12 @@ class MovieViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerVie
         ViewCompat.setTransitionName(image, "${movie.id}_image")
         ViewCompat.setTransitionName(title, "${movie.id}_title")
 
-        if (MainApplication.configuration == null) {
-            EventBus.getDefault().register(this)
+        if (MainApplication.configuration.value == null) {
+            MainApplication.configuration.observe(image.context as LifecycleOwner, Observer {
+                loadImage(it)
+            })
         } else {
-            loadImage(MainApplication.configuration!!)
+            loadImage(MainApplication.configuration.value!!)
         }
 
         itemView.setOnClickListener {

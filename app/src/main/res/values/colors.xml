@@ -6,4 +6,5 @@
 
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+    <color name="black_with_transparency">#cc1e2b31</color>
 </resources>

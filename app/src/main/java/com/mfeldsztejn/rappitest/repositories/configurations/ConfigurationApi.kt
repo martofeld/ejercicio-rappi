@@ -1,4 +1,4 @@
-package com.mfeldsztejn.rappitest.repositories
+package com.mfeldsztejn.rappitest.repositories.configurations
 
 import com.mfeldsztejn.rappitest.dtos.Configuration
 import com.mfeldsztejn.rappitest.networking.RetrofitInstanceBuilder
@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface ConfigurationApi {
     @GET("configuration")
-    fun configuration(): Call<Configuration>
+    fun obtainConfiguration(): Call<Configuration>
 
     companion object {
         fun build(): ConfigurationApi {

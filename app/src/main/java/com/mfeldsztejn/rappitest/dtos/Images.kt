@@ -1,7 +1,5 @@
 package com.mfeldsztejn.rappitest.dtos
 
-data class Configuration(val images: Images)
-
 data class Images(val secureBaseUrl: String, val posterSizes: List<String>, val backdropSizes: List<String>) {
     fun backdropUrl(endpoint: String, screenSize: Int): String {
         return secureBaseUrl + findBestSize(backdropSizes, screenSize) + endpoint

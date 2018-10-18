@@ -1,15 +1,17 @@
 package com.mfeldsztejn.rappitest
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import com.mfeldsztejn.rappitest.dtos.Configuration
-import com.mfeldsztejn.rappitest.events.ConfigurationObtainedEvent
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
+import com.mfeldsztejn.rappitest.dtos.Genre
+import com.mfeldsztejn.rappitest.repositories.configurations.ConfigurationManager
+import com.mfeldsztejn.rappitest.repositories.genres.GenresManager
 
 class MainApplication : Application() {
 
     companion object {
-        var configuration: Configuration? = null
+        lateinit var configuration: LiveData<Configuration>
+        lateinit var genres: LiveData<Map<Int, Genre>>
         lateinit var application: Application
     }
 
@@ -17,12 +19,9 @@ class MainApplication : Application() {
         super.onCreate()
 
         MainApplication.application = this
-        ConfigurationManager(this).loadConfiguration()
-        EventBus.getDefault().register(this)
-    }
+        AppDatabase.init(this)
 
-    @Subscribe
-    fun onConfigurationObtainedEvent(event: ConfigurationObtainedEvent) {
-        configuration = event.configuration
+        configuration = ConfigurationManager(this).loadConfiguration()
+        genres = GenresManager(this).loadGenres()
     }
 }
