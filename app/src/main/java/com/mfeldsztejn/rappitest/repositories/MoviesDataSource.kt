@@ -11,7 +11,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MoviesDataSource(private val sortBy: String) : PageKeyedDataSource<Int, Movie>() {
+class MoviesDataSource(private val sortBy: String, private val query: String?) : PageKeyedDataSource<Int, Movie>() {
 
     private val moviesApi: MoviesApi = MoviesApi.build()
 
@@ -66,18 +66,18 @@ class MoviesDataSource(private val sortBy: String) : PageKeyedDataSource<Int, Mo
     }
 
     private fun getCall(page: Int): Call<ApiResult<Movie>> {
-        return moviesApi.discover(page, sortBy)
+        return if (query.isNullOrEmpty()) moviesApi.discover(page, sortBy) else moviesApi.search(page, sortBy, query!!)
     }
 }
 
-class MovieDataSourceFactory(private val sortBy: String) : DataSource.Factory<Int, Movie>() {
+class MovieDataSourceFactory(private val sortBy: String, private val query: String?) : DataSource.Factory<Int, Movie>() {
 
     private val _dataSource = MutableLiveData<PageKeyedDataSource<Int, Movie>>()
     val dataSource: LiveData<PageKeyedDataSource<Int, Movie>>
         get() = _dataSource
 
     override fun create(): DataSource<Int, Movie> {
-        val dataSource = MoviesDataSource(sortBy)
+        val dataSource = MoviesDataSource(sortBy, query)
 
         _dataSource.postValue(dataSource)
 

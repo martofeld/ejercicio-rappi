@@ -63,4 +63,14 @@ class ListFragment : Fragment() {
             progressbar.visibility = View.GONE
         })
     }
+
+    fun search(query: String?) {
+        if (viewModel.search(sortBy, query))
+            listenForChanges()
+    }
+
+    fun clearSearch() {
+        viewModel.discover(sortBy)
+        listenForChanges()
+    }
 }

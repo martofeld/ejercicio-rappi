@@ -9,7 +9,7 @@ import com.mfeldsztejn.rappitest.MainApplication
 import com.mfeldsztejn.rappitest.R
 
 class MainActivityPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
-    private val fragmentMap: SparseArray<Fragment> = SparseArray(3)
+    private val fragmentMap: SparseArray<ListFragment> = SparseArray(3)
 
     override fun getItem(position: Int): Fragment {
         val sortBy =
@@ -24,7 +24,7 @@ class MainActivityPagerAdapter(fragmentManager: FragmentManager) : FragmentPager
     override fun getCount() = 3
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val fragment = super.instantiateItem(container, position) as Fragment
+        val fragment = super.instantiateItem(container, position) as ListFragment
         fragmentMap.put(position, fragment)
         return fragment
     }
@@ -40,5 +40,9 @@ class MainActivityPagerAdapter(fragmentManager: FragmentManager) : FragmentPager
             2 -> MainApplication.application.getString(R.string.upcoming)
             else -> MainApplication.application.getString(R.string.popularity)
         }
+    }
+
+    fun getFragment(position: Int): ListFragment? {
+        return fragmentMap.get(position, null)
     }
 }

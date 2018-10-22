@@ -11,13 +11,14 @@ import com.mfeldsztejn.rappitest.repositories.MoviesDataSource
 
 class ListViewModel : ViewModel() {
     lateinit var moviesPagedList: LiveData<PagedList<Movie>>
+    var query: String? = null
 
     fun discover(sortBy: String) {
-        createLiveData(sortBy)
+        createLiveData(sortBy, null)
     }
 
-    private fun createLiveData(sortBy: String) {
-        val factory = MovieDataSourceFactory(sortBy)
+    private fun createLiveData(sortBy: String, query: String?) {
+        val factory = MovieDataSourceFactory(sortBy, query)
 
         val pagedListConfig = PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -25,5 +26,14 @@ class ListViewModel : ViewModel() {
                 .build()
 
         moviesPagedList = LivePagedListBuilder(factory, pagedListConfig).build()
+    }
+
+    fun search(sortBy: String, query: String?): Boolean {
+        if (this.query == query) {
+            return false
+        }
+        this.query = query
+        createLiveData(sortBy, query)
+        return true
     }
 }

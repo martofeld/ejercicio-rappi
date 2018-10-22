@@ -17,6 +17,9 @@ interface MoviesApi {
     @GET("movie/{movieId}?append_to_response=videos,reviews")
     fun movie(@Path("movieId") id: Long): Call<MovieDetail>
 
+    @GET("search/movie")
+    fun search(@Query("page") page: Int, @Query("sort_by") sortBy: String, @Query("query") query: String): Call<ApiResult<Movie>>
+
     companion object {
         fun build(): MoviesApi {
             return RetrofitInstanceBuilder
