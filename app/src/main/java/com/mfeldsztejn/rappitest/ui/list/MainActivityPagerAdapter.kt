@@ -2,6 +2,7 @@ package com.mfeldsztejn.rappitest.ui.list
 
 import android.util.SparseArray
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -9,7 +10,8 @@ import com.mfeldsztejn.rappitest.MainApplication
 import com.mfeldsztejn.rappitest.R
 
 class MainActivityPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
-    private val fragmentMap: SparseArray<ListFragment> = SparseArray(3)
+    @VisibleForTesting
+    val fragmentMap: SparseArray<ListFragment> = SparseArray(3)
 
     override fun getItem(position: Int): Fragment {
         val sortBy =

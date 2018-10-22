@@ -14,10 +14,10 @@ class ListViewModel : ViewModel() {
     var query: String? = null
 
     fun discover(sortBy: String) {
-        createLiveData(sortBy, null)
+        moviesPagedList = createLiveData(sortBy, null)
     }
 
-    private fun createLiveData(sortBy: String, query: String?) {
+    private fun createLiveData(sortBy: String, query: String?): LiveData<PagedList<Movie>> {
         val factory = MovieDataSourceFactory(sortBy, query)
 
         val pagedListConfig = PagedList.Config.Builder()
@@ -25,7 +25,7 @@ class ListViewModel : ViewModel() {
                 .setPageSize(MoviesDataSource.PAGE_SIZE)
                 .build()
 
-        moviesPagedList = LivePagedListBuilder(factory, pagedListConfig).build()
+        return LivePagedListBuilder(factory, pagedListConfig).build()
     }
 
     fun search(sortBy: String, query: String?): Boolean {
@@ -33,7 +33,7 @@ class ListViewModel : ViewModel() {
             return false
         }
         this.query = query
-        createLiveData(sortBy, query)
+        moviesPagedList = createLiveData(sortBy, query)
         return true
     }
 }

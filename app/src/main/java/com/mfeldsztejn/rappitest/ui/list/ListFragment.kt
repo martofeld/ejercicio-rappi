@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,17 +29,19 @@ class ListFragment : Fragment() {
 
     private lateinit var viewModel: ListViewModel
     private lateinit var adapter: MoviesAdapter
-    private lateinit var sortBy: String
+    @VisibleForTesting
+    lateinit var sortBy: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null)
-            sortBy = arguments!!.getString(SORT_BY_KEY)!! // Should always be there
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        if (arguments != null)
+            sortBy = arguments!!.getString(SORT_BY_KEY)!! // Should always be there
+
         viewModel.discover(sortBy)
 
         return inflater.inflate(R.layout.list_fragment, container, false)
