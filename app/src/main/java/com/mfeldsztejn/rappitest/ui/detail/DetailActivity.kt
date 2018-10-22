@@ -33,6 +33,10 @@ class DetailActivity : AppCompatActivity() {
 
         ViewCompat.setTransitionName(viewPagerHeader, "${movieId}_image")
 
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = null
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         viewModel.movieLiveData.observe(this, Observer { movieDetail ->
             val data = ArrayList<ViewPagerAdapterType>()
             if (movieDetail.backdropPath != null) {
